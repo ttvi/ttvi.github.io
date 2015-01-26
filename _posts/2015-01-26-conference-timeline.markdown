@@ -4,7 +4,7 @@ title:  "Conference Timeline"
 date:   2015-01-26 18:14:55
 categories: jekyll update
 ---
-<h2>Conference Timeline</h2>
+<p>This post describes a conceptual idea of a conference watcher that enables users to manage their target conferences.</p>
  <p>I would appreciate anyone who could help me to change this image into an interative webpage with the following features:
 	<ul>
 	  <li>Add/Remove a conference</li>
