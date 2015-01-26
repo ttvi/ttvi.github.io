@@ -24,4 +24,13 @@ Check out the [Jekyll docs][jekyll] for more info on how to get the most out of 
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-help]: https://github.com/jekyll/jekyll-help
 
+<h2>Conference Timeline</h2>
+ <p>Appreciation to anyone that can help me to change this image into an interative webpage with the following features:
+	<ul>
+	  <li>Add/Remove a conference</li>
+	  <li>When a conference is selected, those overlapped will be unavailable (grayed out); this is for detecting double submissions</li>
+	  <li>Manage by publications: different publications have different timeline</li>
+	</ul>
+ </p>
+ 
 ![timeline](/img/cfptimeline.jpg)
