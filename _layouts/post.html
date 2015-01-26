@@ -12,8 +12,9 @@ layout: default
     {{ content }}
   </article>
   
-  {% if page.post %}
-  {% include disqus.html %}
+  {% if page.about %}
+  {% else %}
+    {% include disqus.html %}
   {% endif %}
 
 </div>
