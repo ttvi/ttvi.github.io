@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Conference Timeline"
 date:   2015-01-26 18:14:55
 categories: jekyll update
 ---
