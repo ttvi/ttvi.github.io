@@ -9,7 +9,7 @@ categories: jekyll update
 	<ul>
 	  <li>Add/Remove a conference</li>
 	  <li>When a conference is selected, those overlapped will be unavailable (grayed out); this is for detecting double submissions</li>
-	  <li>Manage by publications: different publications have different timeline</li>
+	  <li>Manage by publications: each publication has its own timeline</li>
 	</ul>
  </p>
  
