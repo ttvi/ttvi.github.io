@@ -13,4 +13,6 @@ categories: jekyll update
 	</ul>
  </p>
  
+ <div id="timeline" style="width: 100%; height: 600px;"></div>
+ 
 ![timeline](/img/cfptimeline.jpg)
