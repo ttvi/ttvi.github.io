@@ -1,23 +1,17 @@
----
-layout: default
----
-
-<div class="home">
-
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conference Timeline</title>
+</head>
+<body>
+ <h2>Conference Timeline</h2>
+ <p>Appreciation to anyone that can help me to change this image into an interative webpage with the following features:
+	<ul>
+	  <li>Add/Remove a conference</li>
+	  <li>When a conference is selected, those overlapped will be unavailable (grayed out); this is for detecting double submissions</li>
+	  <li>Manage by publications: different publications have different timeline</li>
+	</ul>
+ </p>
+ <img src="img/cfptimeline.jpg" alt="cfptimeline" style="width:100%">
+</body>
+</html>
