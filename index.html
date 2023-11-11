@@ -1,17 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Conference Timeline</title>
+  <title>test data</title>
+  <link rel="stylesheet" href="css/examples.css">
 </head>
 <body>
- <h2>Conference Timeline</h2>
- <p>Appreciation to anyone that can help me to change this image into an interative webpage with the following features:
-	<ul>
-	  <li>Add/Remove a conference</li>
-	  <li>When a conference is selected, those overlapped will be unavailable (grayed out); this is for detecting double submissions</li>
-	  <li>Manage by publications: different publications have different timeline</li>
-	</ul>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+  <script src="js/typeahead.bundle.js"/></script>
+  <script>
+
+    function priceToString(priceString) {
+      let result = ""
+      const price = Number(priceString)
+      const bn = ~~(price / 1000000000)
+      if (bn > 0) {
+        result += `${bn} ty `
+        const ml = ~~((price - bn*1000000000)/1000000)
+        result += `${ml} trieu`
+      } else {
+        const ml = ~~(price / 1000000)
+        result += `${ml} trieu`
+      }
+      return result
+    }
+
+    const dict = new Map()
+    const keys = new Array()
+
+    var selectedModel;
+
+    console.log("size:", dict.size);
+    fetch("/data/index.csv")
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.split(/\r\n|\n/)
+        lines.forEach((line, id) => {
+          const arr = line.split(/,/)
+          dict.set(arr[0], arr[1])
+          keys.push(arr[0])
+        });
+        console.log("size:", dict.size);
+      })
+
+    const getMapSize = () => {
+      console.log("searching for model", selectedModel)
+      document.getElementById("demo").innerHTML = priceToString(dict.get(selectedModel));
+    }
+
+$(document).ready(function() {
+    var substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substringRegex;
+
+        // an array that will be populated with substring matches
+        matches = [];
+
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+
+        cb(matches);
+      };
+    };
+
+    $('.typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'states',
+      source: substringMatcher(keys)
+    });
+
+    $('.typeahead').on('typeahead:selected', function(event, datum) {
+      selectedModel = datum;
+    });
+});
+
+  </script>
+
+ <h2>HION's used-car pricing tool</h2>
+ <p>
+   <center>
+     <input class="typeahead" type="text" placeholder="car model to search for">
+     <button class="button" type="button" onclick="getMapSize()">Submit</button>
+   </center>
+   <p id="demo"></p>
  </p>
- <img src="img/cfptimeline.jpg" alt="cfptimeline" style="width:100%">
 </body>
 </html>

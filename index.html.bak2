@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test data</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+  <script src="js/typeahead.bundle.js"/></script>
+  <script>
+
+    const dict = new Map()
+    const keys = new Array()
+    console.log("size:", dict.size);
+    fetch("/data/index.csv")
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.split(/\r\n|\n/)
+        lines.forEach((line, id) => {
+          const arr = line.split(/,/)
+          dict.set(arr[0], arr[1])
+          keys.push(arr[0])
+        });
+        console.log("size:", dict.size);
+      })
+
+    const getMapSize = () => {
+      let model = document.getElementById("the-basics").value;
+      console.log("searching for model", model)
+      document.getElementById("demo").innerHTML = dict.get(model);
+    }
+
+$(document).ready(function() {
+    var substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substringRegex;
+
+        // an array that will be populated with substring matches
+        matches = [];
+
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+
+        cb(matches);
+      };
+    };
+
+    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+      'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+      'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+      'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+      'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+      'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+      'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+      'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+      'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+    ];
+
+    $('#the-basics .typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'states',
+      source: substringMatcher(keys)
+    });
+});
+  // // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
+  // var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+  //
+  // // Open (or create) the database
+  // var open = indexedDB.open("MyDatabase", 1);
+  //
+  // // Create the schema
+  // open.onupgradeneeded = function() {
+  //     var db = open.result;
+  //     var store = db.createObjectStore("MyObjectStore", {keyPath: "model"});
+  //     // var index = store.createIndex("ModelPriceIndex", ["model", "price"]);
+  // };
+  //
+  // open.onsuccess = function() {
+  //     // Start a new transaction
+  //     var db = open.result;
+  //     // var index = store.index("ModelPriceIndex");
+  //
+  //     // Add some data
+  //     fetch("/data/index.csv")
+  //       .then(res => res.text())
+  //       .then(text => {
+  //         const allLines = text.split(/\r\n|\n/);
+  //         // Reading line by line
+  //         allLines.forEach((line) => {
+  //           const arr = line.split(/,/);
+  //           console.log(arr[0], arr[1]);
+  //           const tx = db.transaction("MyObjectStore", "readwrite");
+  //           tx.objectStore("MyObjectStore").put({model: arr[0], price: arr[1]});
+  //         });
+  //       })
+  //       .finally(() => {
+  //         // Close the db when the transaction is done
+  //         db.close();
+  //       });
+  //
+  //
+  //     // Query the data
+  //     // var getJohn = store.get(12345);
+  //     // var getBob = index.get(["Smith", "Bob"]);
+  //     //
+  //     // getJohn.onsuccess = function() {
+  //     //     console.log(getJohn.result.name.first);  // => "John"
+  //     // };
+  //     //
+  //     // getBob.onsuccess = function() {
+  //     //     console.log(getBob.result.name.first);   // => "Bob"
+  //     // };
+  // }
+  //
+  // function myFunction() {
+  //     // Get the value of the input field with id="numb"
+  //     let x = document.getElementById("numb").value;
+  //     // If x is Not a Number or less than one or greater than 10
+  //     document.getElementById("demo").innerHTML = x;
+  // }
+
+  </script>
+
+ <h2>Test data</h2>
+ <p>Enter the name of the car
+   <div id="the-basics">
+     <input class="typeahead" type="text" placeholder="States of USA">
+   </div>
+
+   <button type="button" onclick="getMapSize()">Submit</button>
+
+   <p id="demo"></p>
+ </p>
+</body>
+</html>
