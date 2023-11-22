@@ -3,6 +3,8 @@
 <head>
   <title>test data</title>
   <link rel="stylesheet" href="css/examples.css">
+  <link rel="stylesheet" href="css/toggle.css">
+  <link rel="stylesheet" href="css/slider.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
@@ -13,6 +15,8 @@
   <script>
 
     const MAX_COUNT = 10;
+    const MILLION = 1000000;
+    const BILLION = 1000000000;
 
     let isCommercial = false;
     let years = 1;
@@ -26,14 +30,14 @@
     function priceToString(priceString) {
       let result = ""
       const price = Number(priceString)
-      const bn = ~~(price / 1000000000)
+      const bn = ~~(price / BILLION)
       if (bn > 0) {
-        result += `${bn} ty `
-        const ml = ~~((price - bn*1000000000)/1000000)
-        result += `${ml} trieu`
+        result += `${bn} tỷ `
+        const ml = ~~((price - bn*BILLION)/MILLION)
+        result += `${ml} triệu`
       } else {
-        const ml = ~~(price / 1000000)
-        result += `${ml} trieu`
+        const ml = ~~(price / MILLION)
+        result += `${ml} triệu`
       }
       return result
     }
@@ -80,7 +84,7 @@
     }
 
     const yearsSelection = (select) => {
-      years = select.value;
+      years = select.id.slice(4);
       updateTotalPrice();
     }
 
@@ -96,8 +100,8 @@
       modelAge = 2023 - modelYear;
 
       document.getElementById("model").innerHTML = modelName;
-      document.getElementById("year").innerHTML = modelYear;
-      document.getElementById("age").innerHTML = modelAge;
+      // document.getElementById("year").innerHTML = modelYear;
+      // document.getElementById("age").innerHTML = modelAge;
       document.getElementById("price").innerHTML = priceToString(modelPrice);
     }
 
@@ -136,32 +140,38 @@
      <input id="typeaheadinput" class="typeahead" type="text" placeholder="car model to search for"></input>
    </center>
    <p id="demo"></p>
-   <p>thông tin xe:</p>
-   <label for="model">dòng:</label><p id="model"></p>
-   <label for="year">năm:</label><p id="year"></p>
-   <label for="price">giá:</label><p id="price"></p>
-   <label for="age">số năm:</label><p id="age"></p>
+   <p>
+     <span id="model"></span><br>
+     <b><span id="price"></span></b>
+   </p>
+   <br>
    <!-- commercial -->
-   <label for="commercial">kinh doanh vận tải:</label>
-   <input type="checkbox" id="commercial" name="commercial" onclick="commercialCheckBox(this)">
+   <div class="custom-checkbox">
+     <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
+     <label for="status">
+       <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
+     </label>
+   </div>
    <br>
    <!-- years -->
-   <label for="years">số năm bảo hiểm:</label>
-   <select name="1" id="years" onchange="yearsSelection(this)">
-     <option value="1">1</option>
-     <option value="2">2</option>
-     <option value="3">3</option>
-     <option value="4">4</option>
-     <option value="5">5</option>
-     <option value="6">6</option>
-     <option value="7">7</option>
-     <option value="8">8</option>
-     <option value="9">9</option>
-     <option value="10">10</option>
-   </select>
+   <p>số năm tham gia bảo hiểm:</p>
+   <div class="box">
+     <div class="years">
+       <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
+       <input type="radio" name="years" id="year9" onchange="yearsSelection(this)"><label for="year9">9</label>
+       <input type="radio" name="years" id="year8" onchange="yearsSelection(this)"><label for="year8">8</label>
+       <input type="radio" name="years" id="year7" onchange="yearsSelection(this)"><label for="year7">7</label>
+       <input type="radio" name="years" id="year6" onchange="yearsSelection(this)"><label for="year6">6</label>
+       <input type="radio" name="years" id="year5" onchange="yearsSelection(this)"><label for="year5">5</label>
+       <input type="radio" name="years" id="year4" onchange="yearsSelection(this)"><label for="year4">4</label>
+       <input type="radio" name="years" id="year3" onchange="yearsSelection(this)"><label for="year3">3</label>
+       <input type="radio" name="years" id="year2" onchange="yearsSelection(this)"><label for="year2">2</label>
+       <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
+     </div>
+   </div>
    <br>
    <!-- years -->
-   <label for="provider">hãng bảo hiểm:</label>
+   hãng bảo hiểm:
    <select name="pvi" id="provider" onchange="providerSelection(this)">
      <option value="pvi">pvi</option>
      <option value="bvi">bvi</option>
@@ -173,5 +183,6 @@
    <label for="totalPrice">total:</label>
    <p id="totalPrice"></p>
  </p>
+ <br>
 </body>
 </html>
