@@ -25,9 +25,9 @@
        <b><span id="price"></span></b>
        <p style="padding:5px;">định giá xe (triệu đồng)</p>
        <div class="number-input">
-         <button onclick="setEstimatedPrice(modelPrice - 1)" class="minus"></button>
+         <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice - 1)" class="minus"></button>
          <input id="estimatedPrice" class="quantity" min="0" name="quantity" value="0" type="number" oninput="setEstimatedPrice(Number(this.value))">
-         <button onclick="setEstimatedPrice(modelPrice + 1)" class="plus"></button>
+         <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice + 1)" class="plus"></button>
        </div>
      </p>
    </center>
@@ -61,6 +61,8 @@
      </div>
    </center>
  </p>
+ <br>
+ <br>
  <!-- total -->
  <div class="footer">
    total price (nghìn đồng): <span id="totalPrice">0</span>

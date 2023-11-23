@@ -9,6 +9,10 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
+.no-double-tap-zoom {
+  touch-action: manipulation;
+}
+
 .number-input {
   border: 2px solid #ddd;
   display: inline-flex;
@@ -32,6 +36,7 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
   margin: 0;
   position: relative;
+  touch-action: manipulation;
 }
 
 .number-input button:after {
