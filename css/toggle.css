@@ -3,6 +3,7 @@
   height: 20vw;
   max-height: 100px;
   font-size: min(5vw, 32px);
+  -webkit-tap-highlight-color: transparent;
 }
 .custom-checkbox input#status {
   display: none;

@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="css/toggle.css">
   <link rel="stylesheet" href="css/slider.css">
   <link rel="stylesheet" href="css/price.css">
+  <link rel="stylesheet" href="css/footer.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -13,145 +14,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
   <script src="js/typeahead.bundle.js"/></script>
-
-  <script>
-
-    const MAX_COUNT = 10;
-    const MILLION = 1000000;
-    const BILLION = 1000000000;
-
-    let isCommercial = false;
-    let years = 1;
-    let provider = "vbi"
-
-    let modelPrice = 0;
-    let modelName = "";
-    let modelYear = 0;
-    let modelAge = 0;
-
-    function priceToString(priceString) {
-      let result = ""
-      const price = Number(priceString)
-      const bn = ~~(price / BILLION)
-      if (bn > 0) {
-        result += `${bn} tỷ `
-        const ml = ~~((price - bn*BILLION)/MILLION)
-        result += `${ml} triệu`
-      } else {
-        const ml = ~~(price / MILLION)
-        result += `${ml} triệu`
-      }
-      return result
-    }
-
-    function getRoundUpPrice() {
-      return ~~(modelPrice / MILLION);
-    }
-
-    const dict = new Map()
-    const keys = new Array()
-
-    console.log("size:", dict.size);
-    fetch("/data/index.csv")
-      .then(res => res.text())
-      .then(text => {
-        const lines = text.split(/\r\n|\n/)
-        lines.forEach((line, id) => {
-          const arr = line.split(/,/)
-          dict.set(arr[0].toLowerCase(), arr[1])
-          keys.push(arr[0].toLowerCase())
-        });
-        console.log("size:", dict.size);
-      })
-
-    function findMatches(data, q) {
-      console.log("query:", q)
-      var matches = [];
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
-      data.forEach((str, i) => {
-        if (str.indexOf(q) >= 0) {
-          matches.push(str);
-        }
-      });
-      return matches;
-    };
-
-    const updateTotalPrice = () => {
-      console.log("commercial:", isCommercial);
-      console.log("years:", years);
-      console.log("provider:", provider);
-      document.getElementById("totalPrice").innerHTML = modelPrice*(isCommercial ? 0.012 : 0.011);
-    }
-
-    const commercialCheckBox = (checkbox) => {
-      isCommercial = checkbox.checked;
-      updateTotalPrice();
-    }
-
-    const yearsSelection = (select) => {
-      years = select.id.slice(4);
-      updateTotalPrice();
-    }
-
-    const providerSelection = (select) => {
-      provider = select.value;
-      updateTotalPrice();
-    }
-
-    const refreshModelInfo = (name) => {
-      modelName = name;
-      modelYear = Number(name.slice(-4));
-      modelPrice = ~~(dict.get(name) / MILLION);
-      modelAge = 2023 - modelYear;
-
-      // document.getElementById("model").innerHTML = modelName;
-      // document.getElementById("year").innerHTML = modelYear;
-      // document.getElementById("age").innerHTML = modelAge;
-      setEstimatedPrice(modelPrice);
-    }
-
-    const increaseEstimatedPrice = (amount) => {
-      setEstimatedPrice(modelPrice + amount);
-    }
-
-    const setEstimatedPrice = (amount) => {
-      modelPrice = amount;
-      document.getElementById("estimatedPrice").value = modelPrice;
-
-      updateTotalPrice();
-    }
-
-    $(document).ready(function() {
-        var substringMatcher = function(strs) {
-          return function findTheMatches(q, cb) {
-            var matches = keys;
-            q.toLowerCase().split(" ").forEach((item, i) => {
-              matches = findMatches(matches, item);
-            });
-            cb(matches);
-          }
-        };
-
-        $('.typeahead').typeahead({
-          hint: true,
-          highlight: false,
-          minLength: 1
-        },
-        {
-          name: 'states',
-          source: substringMatcher(keys)
-        });
-
-        $('.typeahead').on('typeahead:selected', function(event, datum) {
-          refreshModelInfo(datum);
-          updateTotalPrice();
-        });
-    });
-
-  </script>
-
- <h2 style="font-size:5vw">HION's used-car pricing tool</h2>
+  <script src="js/main.js"/></script>
+ <h2 style="font-size:5vw;padding:5px">HION car insurance pricing tool</h2>
  <br>
  <p>
    <center>
@@ -179,8 +43,8 @@
    </center>
    <br>
    <!-- years -->
-   <p>số năm tham gia bảo hiểm:</p>
    <center>
+     <p style="padding:5px">số năm tham gia bảo hiểm:</p>
      <div class="box">
        <div class="years">
          <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
@@ -196,19 +60,10 @@
        </div>
      </div>
    </center>
-   <br>
-   <!-- years -->
-   hãng bảo hiểm:
-   <select name="pvi" id="provider" onchange="providerSelection(this)">
-     <option value="pvi">pvi</option>
-     <option value="bvi">bvi</option>
-     <option value="bsh">bsh</option>
-     <option value="vbi">vbi</option>
-   </select>
-   <br>
-   <!-- total -->
-   total: <p id="totalPrice"></p>
  </p>
- <br>
+ <!-- total -->
+ <div class="footer">
+   total price (nghìn đồng): <span id="totalPrice">0</span>
+ </div>
 </body>
 </html>
