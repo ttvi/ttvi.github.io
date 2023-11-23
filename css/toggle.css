@@ -1,21 +1,23 @@
 .custom-checkbox {
   width: 95vw;
   height: 20vw;
+  max-height: 100px;
   font-size: min(5vw, 32px);
 }
 .custom-checkbox input#status {
   display: none;
 }
 .custom-checkbox input#status + label {
-  height: 95vw;
-  width: 100vw;
+  width: 95vw;
+  height: 20vw;
+  max-height: 100px;
 }
 .custom-checkbox input#status + label > .status-switch {
   cursor: pointer;
   width: 95vw;
   height: 20vw;
   max-width: 750px;
-  max-height: 150px;
+  max-height: 100px;
   position: relative;
   background: #E0E0E0;
   color: white;

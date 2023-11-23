@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="css/search.css">
   <link rel="stylesheet" href="css/toggle.css">
   <link rel="stylesheet" href="css/slider.css">
+  <link rel="stylesheet" href="css/price.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -41,6 +42,10 @@
         result += `${ml} triệu`
       }
       return result
+    }
+
+    function getRoundUpPrice() {
+      return ~~(modelPrice / MILLION);
     }
 
     const dict = new Map()
@@ -97,13 +102,24 @@
     const refreshModelInfo = (name) => {
       modelName = name;
       modelYear = Number(name.slice(-4));
-      modelPrice = dict.get(name);
+      modelPrice = ~~(dict.get(name) / MILLION);
       modelAge = 2023 - modelYear;
 
-      document.getElementById("model").innerHTML = modelName;
+      // document.getElementById("model").innerHTML = modelName;
       // document.getElementById("year").innerHTML = modelYear;
       // document.getElementById("age").innerHTML = modelAge;
-      document.getElementById("price").innerHTML = priceToString(modelPrice);
+      setEstimatedPrice(modelPrice);
+    }
+
+    const increaseEstimatedPrice = (amount) => {
+      setEstimatedPrice(modelPrice + amount);
+    }
+
+    const setEstimatedPrice = (amount) => {
+      modelPrice = amount;
+      document.getElementById("estimatedPrice").value = modelPrice;
+
+      updateTotalPrice();
     }
 
     $(document).ready(function() {
@@ -140,11 +156,17 @@
  <p>
    <center>
      <input id="typeaheadinput" class="typeahead" type="text" placeholder="car model to search for"></input>
+     <p>
+       <span id="model"></span><br>
+       <b><span id="price"></span></b>
+       <p style="padding:5px;">định giá xe (triệu đồng)</p>
+       <div class="number-input">
+         <button onclick="setEstimatedPrice(modelPrice - 1)" class="minus"></button>
+         <input id="estimatedPrice" class="quantity" min="0" name="quantity" value="0" type="number" oninput="setEstimatedPrice(Number(this.value))">
+         <button onclick="setEstimatedPrice(modelPrice + 1)" class="plus"></button>
+       </div>
+     </p>
    </center>
-   <p>
-     <span id="model"></span><br>
-     <b><span id="price"></span></b>
-   </p>
    <br>
    <!-- commercial -->
    <center>
@@ -159,21 +181,21 @@
    <!-- years -->
    <p>số năm tham gia bảo hiểm:</p>
    <center>
-   <div class="box">
-     <div class="years">
-       <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
-       <input type="radio" name="years" id="year9" onchange="yearsSelection(this)"><label for="year9">9</label>
-       <input type="radio" name="years" id="year8" onchange="yearsSelection(this)"><label for="year8">8</label>
-       <input type="radio" name="years" id="year7" onchange="yearsSelection(this)"><label for="year7">7</label>
-       <input type="radio" name="years" id="year6" onchange="yearsSelection(this)"><label for="year6">6</label>
-       <input type="radio" name="years" id="year5" onchange="yearsSelection(this)"><label for="year5">5</label>
-       <input type="radio" name="years" id="year4" onchange="yearsSelection(this)"><label for="year4">4</label>
-       <input type="radio" name="years" id="year3" onchange="yearsSelection(this)"><label for="year3">3</label>
-       <input type="radio" name="years" id="year2" onchange="yearsSelection(this)"><label for="year2">2</label>
-       <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
+     <div class="box">
+       <div class="years">
+         <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
+         <input type="radio" name="years" id="year9" onchange="yearsSelection(this)"><label for="year9">9</label>
+         <input type="radio" name="years" id="year8" onchange="yearsSelection(this)"><label for="year8">8</label>
+         <input type="radio" name="years" id="year7" onchange="yearsSelection(this)"><label for="year7">7</label>
+         <input type="radio" name="years" id="year6" onchange="yearsSelection(this)"><label for="year6">6</label>
+         <input type="radio" name="years" id="year5" onchange="yearsSelection(this)"><label for="year5">5</label>
+         <input type="radio" name="years" id="year4" onchange="yearsSelection(this)"><label for="year4">4</label>
+         <input type="radio" name="years" id="year3" onchange="yearsSelection(this)"><label for="year3">3</label>
+         <input type="radio" name="years" id="year2" onchange="yearsSelection(this)"><label for="year2">2</label>
+         <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
+       </div>
      </div>
-   </div>
- </center>
+   </center>
    <br>
    <!-- years -->
    hãng bảo hiểm:
