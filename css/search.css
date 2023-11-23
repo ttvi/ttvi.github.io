@@ -1,15 +1,21 @@
 /* scaffolding */
 /* ----------- */
 
-html {
+/* html {
   overflow-y: scroll;
   *overflow-x: hidden;
-}
+} */
 
-.container {
-  max-width: 750px;
+/* .container {
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .tt-menu,
@@ -21,10 +27,15 @@ html {
 /* ----------- */
 
 html {
-  font: normal normal normal 18px/1.2 "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font: normal normal normal 3vw/1.2 "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: min(5vw, 32px);
   color: #292f33;
+  width: 100vw;
 }
 
+body {
+  width: 100vw;
+}
 
 a {
   color: #03739c;
@@ -42,55 +53,40 @@ a:hover {
 }
 
 .table-of-contents li a {
-  font-size: 16px;
+  font-size: 16vw;
   color: #999;
 }
 
-p + p {
+/* p + p {
   margin: 30px 0 0 0;
-}
+} */
 
 /* site theme */
 /* ---------- */
 
-.title {
+/* .title {
   margin: 20px 0 0 0;
-  font-size: 64px;
-}
+  font-size: 48vw;
+} */
 
-.example {
+/* .example {
   padding: 30px 0;
 }
 
 .example-name {
   margin: 20px 0;
-  font-size: 32px;
-}
-
-.demo {
-  position: relative;
-  *z-index: 1;
-  margin: 50px 0;
-}
-
-.button {
-  width: 100px;
-  /* height: 50px; */
-  padding: 8px 12px;
-  /* font-size: 24px; */
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-}
+  font-size: 32vw;
+} */
 
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 750px;
-  /* height: 30px; */
+  display: block;
+  width: 95vw;
+  max-width: 750px;
   padding: 8px 12px;
-  /* font-size: 24px; */
-  /* line-height: 30px; */
+  font-size: min(5vw, 32px);
+  line-height: 30px;
   border: 2px solid #ccc;
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
@@ -117,7 +113,9 @@ p + p {
 }
 
 .tt-menu {
-  width: 800px;
+  display: block;
+  width: 95vw;
+  max-width: 750px;
   margin: 12px 0;
   padding: 8px 0;
   background-color: #fff;
@@ -132,8 +130,8 @@ p + p {
 }
 
 .tt-suggestion {
-  padding: 3px 20px;
-  font-size: 18px;
+  padding: 1vw 20px;
+  font-size: min(5vw, 32px);
   line-height: 24px;
 }
 
@@ -154,7 +152,7 @@ p + p {
 }
 
 .gist {
-  font-size: 14px;
+  font-size: 14vw;
 }
 
 /* example specific styles */

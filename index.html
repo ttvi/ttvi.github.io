@@ -2,10 +2,11 @@
 <html>
 <head>
   <title>test data</title>
-  <link rel="stylesheet" href="css/examples.css">
+  <link rel="stylesheet" href="css/search.css">
   <link rel="stylesheet" href="css/toggle.css">
   <link rel="stylesheet" href="css/slider.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -134,27 +135,30 @@
 
   </script>
 
- <h2>HION's used-car pricing tool</h2>
+ <h2 style="font-size:5vw">HION's used-car pricing tool</h2>
+ <br>
  <p>
    <center>
      <input id="typeaheadinput" class="typeahead" type="text" placeholder="car model to search for"></input>
    </center>
-   <p id="demo"></p>
    <p>
      <span id="model"></span><br>
      <b><span id="price"></span></b>
    </p>
    <br>
    <!-- commercial -->
-   <div class="custom-checkbox">
-     <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
-     <label for="status">
-       <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
-     </label>
-   </div>
+   <center>
+     <div class="custom-checkbox">
+       <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
+       <label for="status">
+         <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
+       </label>
+     </div>
+   </center>
    <br>
    <!-- years -->
    <p>số năm tham gia bảo hiểm:</p>
+   <center>
    <div class="box">
      <div class="years">
        <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
@@ -169,6 +173,7 @@
        <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
      </div>
    </div>
+ </center>
    <br>
    <!-- years -->
    hãng bảo hiểm:
@@ -180,8 +185,7 @@
    </select>
    <br>
    <!-- total -->
-   <label for="totalPrice">total:</label>
-   <p id="totalPrice"></p>
+   total: <p id="totalPrice"></p>
  </p>
  <br>
 </body>
