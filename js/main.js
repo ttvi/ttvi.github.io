@@ -10,7 +10,6 @@ const BILLION = 1000000000;
  * global variables
  */
 
-let isCommercial = false;
 let years = 1;
 let provider = "vbi"
 
@@ -19,8 +18,19 @@ let modelName = "";
 let modelYear = 0;
 let modelAge = 0;
 
+let providerName = "";
+let vehicleType = "";
+
 const dict = new Map()
 const keys = new Array()
+const formatter = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 
 // ==========================================
 //           pricing model and data
@@ -127,16 +137,30 @@ const PVI_VEHICLE_TYPES = {
 // ==========================================
 
 const updateTotalPrice = () => {
-  console.log("commercial:", isCommercial);
-  console.log("years:", years);
-  console.log("provider:", provider);
-  const pricePerYear = modelPrice*(isCommercial ? 12 : 11); // thousands VND
-  document.getElementById("totalPrice").innerHTML = pricePerYear * years;
-}
+  console.log("model year:", modelYear);
+  console.log("model age:", modelAge);
+  console.log("model name:", modelName);
+  console.log("model price:", modelPrice);
+  console.log("provider name:", providerName);
+  console.log("vehicle type: " + vehicleType);
 
-const commercialCheckBox = (checkbox) => {
-  isCommercial = checkbox.checked;
-  updateTotalPrice();
+  let pricePerYear = 0;
+  switch (providerName) {
+    case "BSH":
+      pricePerYear = BSH_VEHICLE_TYPES[vehicleType].getPrice(modelPrice, modelAge);
+      break;
+    case "PVI":
+      pricePerYear = PVI_VEHICLE_TYPES[vehicleType].getPrice(modelPrice, modelAge);
+      break;
+    case "MIC":
+      pricePerYear = PVI_VEHICLE_TYPES[vehicleType].getPrice(modelPrice, modelAge);
+      break;
+    default:
+      // do nothing
+  }
+  const totalPrice = pricePerYear * 10000 * years;
+  console.log("insurance fee: " + formatter.format(Math.round(totalPrice)));
+  document.getElementById("totalPrice").innerHTML = formatter.format(Math.round(totalPrice));
 }
 
 const yearsSelection = (select) => {
@@ -153,11 +177,8 @@ const refreshModelInfo = (name) => {
   modelName = name;
   modelYear = Number(name.slice(-4));
   modelPrice = ~~(dict.get(name) / MILLION);
-  modelAge = 2023 - modelYear;
+  modelAge = new Date().getFullYear() - modelYear;
 
-  // document.getElementById("model").innerHTML = modelName;
-  // document.getElementById("year").innerHTML = modelYear;
-  // document.getElementById("age").innerHTML = modelAge;
   setEstimatedPrice(modelPrice);
 }
 
@@ -189,17 +210,28 @@ const findMatches = (data, q) => {
 // ==========================================
 
 function populateDropDown() { 
-  const dropdown = $('#london_cars'); 
-  dropdown.empty();  // Clear existing options 
+  // console.log("price: " + PVI_VEHICLE_TYPES[vtype].getPrice(price, year));
 
-  // Add options to the drop-down 
-  for (const vtype of Object.keys(PVI_VEHICLE_TYPES)) {
-    // console.log("price: " + PVI_VEHICLE_TYPES[vtype].getPrice(price, year));
-    dropdown.append($('<option></option>').attr('value', vtype).text(vtype + " : " + PVI_VEHICLE_TYPES[vtype].getDescription()));
+  const dropdownBSH = $('#bsh_categories');
+  dropdownBSH.empty();  // Clear existing options 
+  for (const vtype of Object.keys(BSH_VEHICLE_TYPES)) {
+    dropdownBSH.append($('<option></option>').attr('value', vtype).text(BSH_VEHICLE_TYPES[vtype].getDescription()));
   }
-} 
 
-function openCity(evt, cityName) {
+  const dropdownPVI = $('#pvi_categories');
+  dropdownPVI.empty();  // Clear existing options 
+  for (const vtype of Object.keys(PVI_VEHICLE_TYPES)) {
+    dropdownPVI.append($('<option></option>').attr('value', vtype).text(PVI_VEHICLE_TYPES[vtype].getDescription()));
+  }
+
+  const dropdownMIC = $('#mic_categories');
+  dropdownMIC.empty();  // Clear existing options 
+  for (const vtype of Object.keys(PVI_VEHICLE_TYPES)) {
+    dropdownMIC.append($('<option></option>').attr('value', vtype).text(PVI_VEHICLE_TYPES[vtype].getDescription()));
+  }
+}
+
+function selectProvider(evt, provider) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -209,8 +241,20 @@ function openCity(evt, cityName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(provider).style.display = "block";
   evt.currentTarget.className += " active";
+
+  providerName = provider;
+
+  const e = document.getElementById(providerName.toLowerCase() + "_categories");
+  vehicleType = e.options[e.selectedIndex].value;
+
+  updateTotalPrice();
+}
+
+function selectCarType(select) {
+  vehicleType = select.value;
+  updateTotalPrice();
 }
 
 // ==========================================

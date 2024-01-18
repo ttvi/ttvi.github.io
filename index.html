@@ -16,10 +16,8 @@
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
-  <script src="js/typeahead.bundle.js" />
-  </script>
-  <script src="js/main.js" />
-  </script>
+  <script src="js/typeahead.bundle.js"></script>
+  <script src="js/main.js"></script>
   <h2 style="font-size:5vw;padding:5px">HION car insurance pricing tool</h2>
   <br>
   <p>
@@ -40,36 +38,25 @@
   <br>
   <!-- tabs -->
   <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+    <button class="tablinks" onclick="selectProvider(event, 'BSH')">BSH</button>
+    <button class="tablinks" onclick="selectProvider(event, 'PVI')">PVI</button>
+    <button class="tablinks" onclick="selectProvider(event, 'MIC')">MIC</button>
   </div>
-
-  <div id="London" class="tabcontent">
-    <h3>London</h3>
-    <p>London is the capital city of England.</p>
-    <select id="london_cars" name="cars" style="font-size: min(4vw, 23px);width:100%;max-width:90%;">
-    </select>  
+  <div id="BSH" class="tabcontent">
+    <p>Chọn loại xe</p>
+    <select id="bsh_categories" name="bsh_categories" style="font-size: min(4vw, 23px);width:100%;max-width:90%;" onchange="selectCarType(this)">
+    </select>
   </div>
-
-  <div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p>
+  <div id="PVI" class="tabcontent">
+    <p>Chọn loại xe</p>
+    <select id="pvi_categories" name="pvi_categories" style="font-size: min(4vw, 23px);width:100%;max-width:90%;" onchange="selectCarType(this)">
+    </select>
   </div>
-
-  <div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
+  <div id="MIC" class="tabcontent">
+    <p>Chọn loại xe</p>
+    <select id="mic_categories" name="mic_categories" style="font-size: min(4vw, 23px);width:100%;max-width:90%;" onchange="selectCarType(this)">
+    </select>
   </div>
-  <!-- commercial -->
-  <center>
-    <div class="custom-checkbox">
-      <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
-      <label for="status">
-        <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
-      </label>
-    </div>
-  </center>
   <br>
   <!-- years -->
   <center>
@@ -94,7 +81,7 @@
   <br>
   <!-- total -->
   <div class="footer">
-    total price (nghìn đồng): <span id="totalPrice">0</span>
+    total price: <span id="totalPrice">0</span>
   </div>
 </body>
 
