@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>test data</title>
   <link rel="stylesheet" href="css/search.css">
@@ -7,65 +8,94 @@
   <link rel="stylesheet" href="css/slider.css">
   <link rel="stylesheet" href="css/price.css">
   <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/tab.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
-  <script src="js/typeahead.bundle.js"/></script>
-  <script src="js/main.js"/></script>
- <h2 style="font-size:5vw;padding:5px">HION car insurance pricing tool</h2>
- <br>
- <p>
-   <center>
-     <input id="typeaheadinput" class="typeahead" type="text" placeholder="car model to search for"></input>
-     <p>
-       <span id="model"></span><br>
-       <b><span id="price"></span></b>
-       <p style="padding:5px;">định giá xe (triệu đồng)</p>
-       <div class="number-input">
-         <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice - 1)" id="minus"></button>
-         <input id="estimatedPrice" class="quantity" min="0" name="quantity" value="0" type="number" oninput="setEstimatedPrice(Number(this.value))">
-         <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice + 1)" id="plus"></button>
-       </div>
-     </p>
-   </center>
-   <br>
-   <!-- commercial -->
-   <center>
-     <div class="custom-checkbox">
-       <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
-       <label for="status">
-         <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
-       </label>
-     </div>
-   </center>
-   <br>
-   <!-- years -->
-   <center>
-     <p style="padding:5px">số năm tham gia bảo hiểm:</p>
-     <div class="box">
-       <div class="years">
-         <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
-         <input type="radio" name="years" id="year9" onchange="yearsSelection(this)"><label for="year9">9</label>
-         <input type="radio" name="years" id="year8" onchange="yearsSelection(this)"><label for="year8">8</label>
-         <input type="radio" name="years" id="year7" onchange="yearsSelection(this)"><label for="year7">7</label>
-         <input type="radio" name="years" id="year6" onchange="yearsSelection(this)"><label for="year6">6</label>
-         <input type="radio" name="years" id="year5" onchange="yearsSelection(this)"><label for="year5">5</label>
-         <input type="radio" name="years" id="year4" onchange="yearsSelection(this)"><label for="year4">4</label>
-         <input type="radio" name="years" id="year3" onchange="yearsSelection(this)"><label for="year3">3</label>
-         <input type="radio" name="years" id="year2" onchange="yearsSelection(this)"><label for="year2">2</label>
-         <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
-       </div>
-     </div>
-   </center>
- </p>
- <br>
- <br>
- <!-- total -->
- <div class="footer">
-   total price (nghìn đồng): <span id="totalPrice">0</span>
- </div>
+  <script src="js/typeahead.bundle.js" />
+  </script>
+  <script src="js/main.js" />
+  </script>
+  <h2 style="font-size:5vw;padding:5px">HION car insurance pricing tool</h2>
+  <br>
+  <p>
+    <center>
+      <input id="typeaheadinput" class="typeahead" type="text" placeholder="car model to search for"></input>
+      <p>
+        <span id="model"></span><br>
+        <b><span id="price"></span></b>
+      <p style="padding:5px;">định giá xe (triệu đồng)</p>
+      <div class="number-input">
+        <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice - 1)" id="minus"></button>
+        <input id="estimatedPrice" class="quantity" min="0" name="quantity" value="0" type="number"
+          oninput="setEstimatedPrice(Number(this.value))">
+        <button class="no-double-tap-zoom" onclick="setEstimatedPrice(modelPrice + 1)" id="plus"></button>
+      </div>
+  </p>
+  </center>
+  <br>
+  <!-- tabs -->
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+  </div>
+
+  <div id="London" class="tabcontent">
+    <h3>London</h3>
+    <p>London is the capital city of England.</p>
+    <select id="london_cars" name="cars" style="font-size: min(4vw, 23px);width:100%;max-width:90%;">
+    </select>  
+  </div>
+
+  <div id="Paris" class="tabcontent">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p>
+  </div>
+
+  <div id="Tokyo" class="tabcontent">
+    <h3>Tokyo</h3>
+    <p>Tokyo is the capital of Japan.</p>
+  </div>
+  <!-- commercial -->
+  <center>
+    <div class="custom-checkbox">
+      <input id="status" type="checkbox" name="status" onclick="commercialCheckBox(this)">
+      <label for="status">
+        <div class="status-switch" data-unchecked="xe cá nhân" data-checked="kinh doanh vận tải"></div>
+      </label>
+    </div>
+  </center>
+  <br>
+  <!-- years -->
+  <center>
+    <p style="padding:5px">số năm tham gia bảo hiểm:</p>
+    <div class="box">
+      <div class="years">
+        <input type="radio" name="years" id="year10" onchange="yearsSelection(this)"><label for="year10">10</label>
+        <input type="radio" name="years" id="year9" onchange="yearsSelection(this)"><label for="year9">9</label>
+        <input type="radio" name="years" id="year8" onchange="yearsSelection(this)"><label for="year8">8</label>
+        <input type="radio" name="years" id="year7" onchange="yearsSelection(this)"><label for="year7">7</label>
+        <input type="radio" name="years" id="year6" onchange="yearsSelection(this)"><label for="year6">6</label>
+        <input type="radio" name="years" id="year5" onchange="yearsSelection(this)"><label for="year5">5</label>
+        <input type="radio" name="years" id="year4" onchange="yearsSelection(this)"><label for="year4">4</label>
+        <input type="radio" name="years" id="year3" onchange="yearsSelection(this)"><label for="year3">3</label>
+        <input type="radio" name="years" id="year2" onchange="yearsSelection(this)"><label for="year2">2</label>
+        <input type="radio" name="years" id="year1" checked onchange="yearsSelection(this)"><label for="year1">1</label>
+      </div>
+    </div>
+  </center>
+  </p>
+  <br>
+  <br>
+  <!-- total -->
+  <div class="footer">
+    total price (nghìn đồng): <span id="totalPrice">0</span>
+  </div>
 </body>
+
 </html>
