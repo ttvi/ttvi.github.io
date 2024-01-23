@@ -7,4 +7,5 @@
    color: white;
    text-align: center;
    z-index: 20;
+   font-size: min(8vw, 48px);
 }

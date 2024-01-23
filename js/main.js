@@ -6,6 +6,8 @@ const MAX_COUNT = 10;
 const MILLION = 1000000;
 const BILLION = 1000000000;
 
+const CAR_DATA = "https://raw.githubusercontent.com/ttvi/ttvi.github.io/master/data/index.csv";
+
 /**
  * global variables
  */
@@ -23,13 +25,7 @@ let vehicleType = "";
 
 const dict = new Map()
 const keys = new Array()
-const formatter = new Intl.NumberFormat('vi-VN', {
-  style: 'currency',
-  currency: 'VND',
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
+const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
 
 
 // ==========================================
@@ -71,12 +67,8 @@ class PricingTool {
           throw new RangeError("Invalid Value: please input a positive integer");
       }
       let priceId = 0, yearId = 0;
-      for (let i = 0; i < this.priceRanges.length && carPrice > this.priceRanges[i]; i++) {
-          priceId = i;
-      }
-      for (let j = 0; j < this.yearRanges.length && carYear > this.yearRanges[j]; j++) {
-          yearId = j;
-      }
+      for (; priceId < this.priceRanges.length && carPrice > this.priceRanges[priceId]; priceId++);
+      for (; yearId < this.yearRanges.length && carYear > this.yearRanges[yearId]; yearId++);
       const pricingFactor = this.pricingFactors[priceId][yearId];
       return carPrice * pricingFactor;
   }
@@ -137,13 +129,6 @@ const PVI_VEHICLE_TYPES = {
 // ==========================================
 
 const updateTotalPrice = () => {
-  console.log("model year:", modelYear);
-  console.log("model age:", modelAge);
-  console.log("model name:", modelName);
-  console.log("model price:", modelPrice);
-  console.log("provider name:", providerName);
-  console.log("vehicle type: " + vehicleType);
-
   let pricePerYear = 0;
   switch (providerName) {
     case "BSH":
@@ -159,7 +144,6 @@ const updateTotalPrice = () => {
       // do nothing
   }
   const totalPrice = pricePerYear * 10000 * years;
-  console.log("insurance fee: " + formatter.format(Math.round(totalPrice)));
   document.getElementById("totalPrice").innerHTML = formatter.format(Math.round(totalPrice));
 }
 
@@ -210,8 +194,6 @@ const findMatches = (data, q) => {
 // ==========================================
 
 function populateDropDown() { 
-  // console.log("price: " + PVI_VEHICLE_TYPES[vtype].getPrice(price, year));
-
   const dropdownBSH = $('#bsh_categories');
   dropdownBSH.empty();  // Clear existing options 
   for (const vtype of Object.keys(BSH_VEHICLE_TYPES)) {
@@ -260,7 +242,7 @@ function selectCarType(select) {
 // ==========================================
 
 const init = () => {
-  fetch("/data/index.csv")
+  fetch(CAR_DATA)
     .then(res => res.text())
     .then(text => {
       const lines = text.split(/\r\n|\n/)
